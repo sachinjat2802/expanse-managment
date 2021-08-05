@@ -45,7 +45,7 @@ exports.addExpance = addExpance;
 const updateExpance = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { params: { id }, body, } = req;
-        const updateExpance = yield expance_1.default.findByIdAndUpdate({ _id: id }, body);
+        const updateExpance = yield expance_1.default.findByIdAndUpdate({ _id: id }, body, { new: true });
         const allExpances = yield expance_1.default.find();
         res.status(200).json({
             message: "Expance updated",

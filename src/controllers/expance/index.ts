@@ -16,7 +16,10 @@ const addExpance = async (req: Request, res: Response): Promise<void> => {
   
       const expance: IExpance = new Expance({
         name: body.name,
-       amount: body.amount,
+        amount:body.amount,
+        dsc:body.dsc,
+       
+       
         
       })
   
@@ -38,7 +41,7 @@ const updateExpance = async (req: Request, res: Response): Promise<void> => {
       } = req
       const updateExpance: IExpance | null = await Expance.findByIdAndUpdate(
         { _id: id },
-        body
+        body, {new:true}
       )
       const allExpances: IExpance[] = await Expance.find()
       res.status(200).json({
