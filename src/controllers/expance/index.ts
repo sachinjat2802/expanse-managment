@@ -1,23 +1,56 @@
 import { Response, Request } from "express"
 import { IExpance } from "./../../types/expance"
 import Expance from "../../models/expance"
+import { finished } from "stream/promises";
 
-const getExpance = async (req: Request, res: Response): Promise<void> => {
+
+
+const getExpanceall = async (req: Request, res: Response): Promise<void> => {
   try {
-    const expances: IExpance[] = await Expance.find()
+    const limit = req.query.limit as unknown as number
+      const page = req.query.page as unknown as number
+    const expances: IExpance[] = await Expance.find().limit(limit*1).skip((page-1)*limit).sort({'amount':-1}).exec();
     res.status(200).json({ expances})
   } catch (error) {
     throw error
   }
 }
+
+
+const getExpance = async (req: Request, res: Response): Promise<void> => {
+
+  const match:any= {};
+ if(req.query.name){
+    match.name = req.query.name 
+  }
+ else if(req.query.amount){
+    match.amount = req.query.amount 
+  }
+ 
+  try {
+   const expances: IExpance[] = await Expance.find({
+    $or: [
+      
+      { name:match.name},
+      { amount:match.amount},
+
+       ]
+
+  }).sort({'amount':-1})
+res.status(200).json({expances})
+  }
+ catch (error) {
+    throw error
+  }
+}
+
 const addExpance = async (req: Request, res: Response): Promise<void> => {
     try {
       const body = req.body as Pick < IExpance, "name" | "amount" >
   
       const expance: IExpance = new Expance({
         name: body.name,
-        amount:body.amount,
-        dsc:body.dsc,
+        amount:body.amount
        
        
         
@@ -70,4 +103,4 @@ const updateExpance = async (req: Request, res: Response): Promise<void> => {
     }
   }
   
-  export { getExpance, addExpance, updateExpance, deleteExpance }
+  export {getExpanceall ,getExpance, addExpance, updateExpance, deleteExpance }

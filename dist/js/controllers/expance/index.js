@@ -12,11 +12,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteExpance = exports.updateExpance = exports.addExpance = exports.getExpance = void 0;
+exports.deleteExpance = exports.updateExpance = exports.addExpance = exports.getExpance = exports.getExpanceall = void 0;
 const expance_1 = __importDefault(require("../../models/expance"));
-const getExpance = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getExpanceall = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const expances = yield expance_1.default.find();
+        const limit = req.query.limit;
+        const page = req.query.page;
+        const expances = yield expance_1.default.find().limit(limit * 1).skip((page - 1) * limit).sort({ 'amount': -1 }).exec();
+        res.status(200).json({ expances });
+    }
+    catch (error) {
+        throw error;
+    }
+});
+exports.getExpanceall = getExpanceall;
+const getExpance = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const match = {};
+    if (req.query.name) {
+        match.name = req.query.name;
+    }
+    else if (req.query.amount) {
+        match.amount = req.query.amount;
+    }
+    try {
+        const expances = yield expance_1.default.find({
+            $or: [
+                { name: match.name },
+                { amount: match.amount },
+            ]
+        }).sort({ 'amount': -1 });
         res.status(200).json({ expances });
     }
     catch (error) {
@@ -29,7 +53,7 @@ const addExpance = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const body = req.body;
         const expance = new expance_1.default({
             name: body.name,
-            amount: body.amount,
+            amount: body.amount
         });
         const newExpance = yield expance.save();
         const allExpances = yield expance_1.default.find();

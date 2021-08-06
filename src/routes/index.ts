@@ -1,9 +1,11 @@
 import { Router } from "express"
-import { getExpance, addExpance, updateExpance, deleteExpance } from "../controllers/expance"
+import { getExpance, addExpance, updateExpance, deleteExpance, getExpanceall } from "../controllers/expance"
 
 const router: Router = Router()
 
 router.get("/expance", getExpance)
+
+router.get("/expanceall", getExpanceall)
 
 router.post("/addexpance", addExpance)
 
