@@ -1,9 +1,6 @@
 import { Response, Request } from "express"
-import { IExpance } from "./../../types/expance"
+import { IExpance } from "../../types/expance"
 import Expance from "../../models/expance"
-import { finished } from "stream/promises";
-
-
 
 const getExpanceall = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -15,7 +12,6 @@ const getExpanceall = async (req: Request, res: Response): Promise<void> => {
     throw error
   }
 }
-
 
 const getExpance = async (req: Request, res: Response): Promise<void> => {
 
@@ -66,6 +62,7 @@ const addExpance = async (req: Request, res: Response): Promise<void> => {
       throw error
     }
 }
+
 const updateExpance = async (req: Request, res: Response): Promise<void> => {
     try {
       const {

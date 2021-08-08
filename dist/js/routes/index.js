@@ -1,11 +1,20 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const expance_1 = require("../controllers/expance");
+const user_1 = require("../controllers/user");
+const is_auth_1 = __importDefault(require("../middleware/is-auth"));
 const router = express_1.Router();
-router.get("/expance", expance_1.getExpance);
-router.get("/expanceall", expance_1.getExpanceall);
-router.post("/addexpance", expance_1.addExpance);
-router.put("/edit-expance/:id", expance_1.updateExpance);
-router.delete("/delete-expance/:id", expance_1.deleteExpance);
+router.get("/expance", is_auth_1.default, expance_1.getExpance);
+router.get("/expanceall", is_auth_1.default, expance_1.getExpanceall);
+router.post("/addexpance", is_auth_1.default, expance_1.addExpance);
+router.put("/edit-expance/:id", is_auth_1.default, expance_1.updateExpance);
+router.delete("/delete-expance/:id", is_auth_1.default, expance_1.deleteExpance);
+router.get("/login", is_auth_1.default, user_1.getLogin);
+router.post("/login", user_1.postLogin);
+router.post("/signup", user_1.signup);
+router.get("/logout", is_auth_1.default, user_1.getlogout);
 exports.default = router;

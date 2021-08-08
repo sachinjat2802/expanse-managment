@@ -7,16 +7,35 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
 const routes_1 = __importDefault(require("./routes"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
 const app = express_1.default();
 const PORT = process.env.PORT || 3000;
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
+app.use(session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoDBStore({
+        uri: `mongodb+srv://sachin:28021998@cluster0.srpbo.mongodb.net/myExpance?retryWrites=true&w=majority`,
+        collection: "mySessions",
+    }),
+    cookie: {
+        path: '/',
+        httpOnly: true,
+        expires: false,
+        maxAge: 2 * 60 * 60 * 1000 // 2 hours
+    }
+}));
+app.use(cookie_parser_1.default());
 app.use(cors_1.default({
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
 }));
-app.use(routes_1.default);
 //const uri: string = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.srpbo.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
-const options = { useNewUrlParser: true, useUnifiedTopology: true };
+app.use(routes_1.default);
+const options = { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, };
 mongoose_1.default.set("useFindAndModify", false);
 mongoose_1.default
     .connect(`mongodb+srv://sachin:28021998@cluster0.srpbo.mongodb.net/myExpance?retryWrites=true&w=majority`, options)
@@ -24,3 +43,4 @@ mongoose_1.default
     .catch(error => {
     throw error;
 });
+app.use(routes_1.default);
