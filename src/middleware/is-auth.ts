@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 
+//middleware to check auth
 const isAuth = (req:Request, res:Response, next:any) => {
     if (req.session.isAuth) {
       next();

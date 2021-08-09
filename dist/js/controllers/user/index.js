@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getlogout = exports.signup = exports.postLogin = exports.getLogin = void 0;
 const user_1 = __importDefault(require("../../models/user"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+//create user
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
@@ -40,24 +41,26 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.signup = signup;
+//login status
 const getLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const error = req.session.error;
-    delete req.session.error;
+    //const error = req.session.error;
+    // delete req.session.error;
     res.send("logged in");
 });
 exports.getLogin = getLogin;
+//login user
 const postLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
         const user = yield user_1.default.findOne({ name: body.name });
         if (!user) {
-            req.session.error = "Invalid Credentials";
-            res.send("Invalid Credentials");
+            // req.session.error ="Invalid Credentials";
+            res.send("user name is invalid");
         }
         const isMatch = yield bcryptjs_1.default.compare(body.password, user === null || user === void 0 ? void 0 : user.password);
         if (!isMatch) {
-            req.session.error = "Invalid Credentials";
-            res.send("Invalid Credentials");
+            //req.session.error ="Invalid Credentials";
+            res.send("password is not valid");
         }
         req.session.isAuth = true;
         req.session.name = body.name;
@@ -68,6 +71,7 @@ const postLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.postLogin = postLogin;
+//logout user
 const getlogout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     req.session.destroy((err) => {
         if (err)

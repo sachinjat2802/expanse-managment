@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteExpance = exports.updateExpance = exports.addExpance = exports.getExpance = exports.getExpanceall = void 0;
 const expance_1 = __importDefault(require("../../models/expance"));
+//show all expance
 const getExpanceall = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const limit = req.query.limit;
@@ -26,6 +27,7 @@ const getExpanceall = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getExpanceall = getExpanceall;
+//get expance with filters
 const getExpance = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const match = {};
     if (req.query.name) {
@@ -48,6 +50,7 @@ const getExpance = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.getExpance = getExpance;
+// add expance
 const addExpance = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
@@ -66,6 +69,7 @@ const addExpance = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.addExpance = addExpance;
+// update expance
 const updateExpance = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { params: { id }, body, } = req;
@@ -82,6 +86,7 @@ const updateExpance = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.updateExpance = updateExpance;
+//delete Expance
 const deleteExpance = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const deletedExpance = yield expance_1.default.findByIdAndRemove(req.params.id);

@@ -2,6 +2,7 @@ import { Response, Request } from "express"
 import { IExpance } from "../../types/expance"
 import Expance from "../../models/expance"
 
+//show all expance
 const getExpanceall = async (req: Request, res: Response): Promise<void> => {
   try {
     const limit = req.query.limit as unknown as number
@@ -12,7 +13,7 @@ const getExpanceall = async (req: Request, res: Response): Promise<void> => {
     throw error
   }
 }
-
+//get expance with filters
 const getExpance = async (req: Request, res: Response): Promise<void> => {
 
   const match:any= {};
@@ -40,6 +41,7 @@ res.status(200).json({expances})
   }
 }
 
+// add expance
 const addExpance = async (req: Request, res: Response): Promise<void> => {
     try {
       const body = req.body as Pick < IExpance, "name" | "amount" >
@@ -63,6 +65,7 @@ const addExpance = async (req: Request, res: Response): Promise<void> => {
     }
 }
 
+// update expance
 const updateExpance = async (req: Request, res: Response): Promise<void> => {
     try {
       const {
@@ -84,6 +87,7 @@ const updateExpance = async (req: Request, res: Response): Promise<void> => {
     }
   }
 
+  //delete Expance
   const deleteExpance = async (req: Request, res: Response): Promise<void> => {
     try {
       const deletedExpance: IExpance | null = await Expance.findByIdAndRemove(

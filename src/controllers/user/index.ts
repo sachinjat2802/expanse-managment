@@ -3,6 +3,7 @@ import { IUser } from "../../types/expance"
 import User from "../../models/user"
 import bcrypt from "bcryptjs"
 
+//create user
 const signup = async (req: Request, res: Response): Promise<void> => {
     try {
         const body = req.body as Pick < IUser, "name" | "email"|"password"|"phone">
@@ -30,13 +31,15 @@ const signup = async (req: Request, res: Response): Promise<void> => {
         throw error
       }
     }
-
+//login status
 const getLogin = async (req: Request, res: Response): Promise<void> => {
 
-    const error = req.session.error;
-    delete req.session.error;
+    //const error = req.session.error;
+   // delete req.session.error;
     res.send("logged in")
 }
+
+//login user
 const postLogin = async (req: Request, res: Response): Promise<void> => {
    try {
     const body = req.body as Pick < IUser, "name" | "password">
@@ -45,37 +48,26 @@ const postLogin = async (req: Request, res: Response): Promise<void> => {
 
     if (!user) {
         
-        req.session.error ="Invalid Credentials";
-        res.send("Invalid Credentials");
+       // req.session.error ="Invalid Credentials";
+        res.send("user name is invalid");
        }
-       
-
        const isMatch = await bcrypt.compare(body.password as unknown as string, user?.password as string);
 
        if (!isMatch) {
-        req.session.error ="Invalid Credentials";
-        res.send("Invalid Credentials");
+        //req.session.error ="Invalid Credentials";
+        res.send("password is not valid");
       }
 
        req.session.isAuth=true;
        req.session.name = body.name;
 
        res.send("login successfull");
-    
-
-
-
-      
-      
-
-
     } catch (error) {
         throw error
       }
     }
 
-
-
+//logout user
 const getlogout  = async (req: Request, res: Response): Promise<void> => {
     req.session.destroy((err) => {
      

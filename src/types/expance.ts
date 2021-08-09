@@ -6,7 +6,6 @@ export interface IExpance extends Document {
   
 }
 
-
 export interface IUser extends Document {
   name: string
   email:String
