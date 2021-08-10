@@ -14,10 +14,17 @@ const app = express_1.default();
 const PORT = process.env.PORT || 3000;
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
+//create session
+/**
+ * @session session setup with mongoDBStore
+ * @store store session in mongoDB with uri and collection name
+ * @cookie set cookie for express session
+ */
 app.use(session({
     secret: "secret",
     resave: false,
     saveUninitialized: false,
+    //store session in db
     store: new MongoDBStore({
         uri: `mongodb+srv://sachin:28021998@cluster0.srpbo.mongodb.net/myExpance?retryWrites=true&w=majority`,
         collection: "mySessions",
@@ -33,14 +40,13 @@ app.use(cookie_parser_1.default());
 app.use(cors_1.default({
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
 }));
-//const uri: string = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.srpbo.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
 app.use(routes_1.default);
 const options = { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, };
 mongoose_1.default.set("useFindAndModify", false);
+//connection with db and server start
 mongoose_1.default
     .connect(`mongodb+srv://sachin:28021998@cluster0.srpbo.mongodb.net/myExpance?retryWrites=true&w=majority`, options)
     .then(() => app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`)))
     .catch(error => {
     throw error;
 });
-app.use(routes_1.default);

@@ -14,16 +14,21 @@ const PORT: string | number = process.env.PORT || 3000
 
 app.use(express.json())
 
-app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({ extended: false }))
 
 //create session
+/**
+ * @session session setup with mongoDBStore
+ * @store store session in mongoDB with uri and collection name
+ * @cookie set cookie for express session
+ */
 app.use(
   session({
     secret: "secret",
     resave: false,
     saveUninitialized: false,
     //store session in db
-    store:new MongoDBStore({
+    store: new MongoDBStore({
       uri: `mongodb+srv://sachin:28021998@cluster0.srpbo.mongodb.net/myExpance?retryWrites=true&w=majority`,
       collection: "mySessions",
     }),
@@ -32,20 +37,20 @@ app.use(
       httpOnly: true,
       expires: false,
       maxAge: 2 * 60 * 60 * 1000 // 2 hours
-   }
+    }
   })
 );
 
 app.use(cookieParser())
 
 app.use(cors({
-  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+  methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
 }))
 
-//const uri: string = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.srpbo.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
+
 app.use(Routes)
 
-const options = { useNewUrlParser: true, useUnifiedTopology: true , useCreateIndex: true,}
+const options = { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, }
 
 mongoose.set("useFindAndModify", false)
 
@@ -61,4 +66,4 @@ mongoose
     throw error
   })
 
-  app.use(Routes)
+

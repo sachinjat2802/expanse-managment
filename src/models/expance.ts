@@ -1,6 +1,8 @@
 import { IExpance } from "./../types/expance"
 import { model, Schema } from "mongoose"
-
+/**
+ * @schema for expance db
+ */
 const expanceSchema: Schema = new Schema(
   {
     name: {

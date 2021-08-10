@@ -1,5 +1,8 @@
 import { model, Schema } from "mongoose"
 
+/**
+ * @schema schema for user db
+ */
 import { IUser } from "./../types/expance"
 const userSchema: Schema = new Schema(
   {
@@ -8,21 +11,21 @@ const userSchema: Schema = new Schema(
       required: true,
     },
 
-   email : {
-      type:String,
+    email: {
+      type: String,
       required: true,
     },
-    password:{
-        type:String,
-        requird:true,
+    password: {
+      type: String,
+      required: true,
     },
-    phone : {
-        type:Number,
-        required: true,
-      },
+    phone: {
+      type: Number,
+      required: true,
+    },
 
-    },
- 
+  },
+
 
   { timestamps: true }
 )
