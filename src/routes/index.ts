@@ -2,6 +2,9 @@ import { Router, Request, Response } from "express"
 import { getExpance, addExpance, updateExpance, deleteExpance } from "../controllers/expance"
 import { getLogin, postLogin, signup, getlogout } from "../controllers/user"
 import isAuth from "../middleware/is-auth"
+import { uploadMiddleware } from '../controllers/middleware';
+import uploadFiles from "../controllers/uploadFiles";
+
 
 const router: Router = Router()
 
@@ -83,6 +86,9 @@ router.post("/signup", signup)
  */
 
 router.get("/logout", isAuth, getlogout)
+
+
+router.post('/upload', isAuth, uploadMiddleware.single('input'), uploadFiles);
 
 
 

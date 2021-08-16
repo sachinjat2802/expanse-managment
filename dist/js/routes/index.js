@@ -7,6 +7,8 @@ const express_1 = require("express");
 const expance_1 = require("../controllers/expance");
 const user_1 = require("../controllers/user");
 const is_auth_1 = __importDefault(require("../middleware/is-auth"));
+const middleware_1 = require("../controllers/middleware");
+const uploadFiles_1 = __importDefault(require("../controllers/uploadFiles"));
 const router = express_1.Router();
 //show all expance
 /**
@@ -74,4 +76,5 @@ router.post("/signup", user_1.signup);
  * @method getlogout from expance controller
  */
 router.get("/logout", is_auth_1.default, user_1.getlogout);
+router.post('/upload', is_auth_1.default, middleware_1.uploadMiddleware.single('input'), uploadFiles_1.default);
 exports.default = router;
