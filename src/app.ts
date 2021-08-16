@@ -10,7 +10,7 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 
 const app: Express = express()
 
-const PORT: string | number = process.env.PORT || 3000 
+const PORT: string | number = process.env.PORT || 3000;
 
 app.use(express.json())
 
