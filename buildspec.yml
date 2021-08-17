@@ -20,7 +20,8 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - npm run start
+      - npm run start &
+
 artifacts:
   files:
     - dist/**/*
