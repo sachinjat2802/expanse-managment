@@ -3,7 +3,7 @@ import mongoose from "mongoose"
 import cors from "cors"
 import Routes from "./routes"
 import cookieParser from "cookie-parser"
-const serverless = require('serverless-http');
+
 
 const session = require("express-session");
 
@@ -73,4 +73,5 @@ mongoose
   })
 
 
-module.export
+module.exports = app
+

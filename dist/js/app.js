@@ -56,4 +56,5 @@ mongoose_1.default
     throw error;
 });
 
-export default app
+module.exports = app
+
