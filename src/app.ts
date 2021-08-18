@@ -3,6 +3,7 @@ import mongoose from "mongoose"
 import cors from "cors"
 import Routes from "./routes"
 import cookieParser from "cookie-parser"
+const serverless = require('serverless-http');
 
 const session = require("express-session");
 
@@ -49,6 +50,8 @@ app.use(cors({
 
 
 app.use(Routes)
+app.get("/", () => console.log("hello"))
+
 
 const options = { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, }
 
@@ -64,8 +67,10 @@ mongoose
       console.log(`Server running on http://localhost:${PORT}`)
     )
   )
+
   .catch(error => {
     throw error
   })
 
 
+module.export
