@@ -10,7 +10,6 @@ const is_auth_1 = __importDefault(require("../middleware/is-auth"));
 const middleware_1 = require("../controllers/middleware");
 const uploadFiles_1 = __importDefault(require("../controllers/uploadFiles"));
 const router = express_1.Router();
-router.get('/', function (req, res, next) { console.log("serverless"); });
 //show all expance
 /**
  * @use show expance
@@ -78,4 +77,5 @@ router.post("/signup", user_1.signup);
  */
 router.get("/logout", is_auth_1.default, user_1.getlogout);
 router.post('/upload', is_auth_1.default, middleware_1.uploadMiddleware.single('input'), uploadFiles_1.default);
+router.get('/', function (req, res, next) { return console.log("serverless"); });
 exports.default = router;

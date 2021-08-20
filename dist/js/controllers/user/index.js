@@ -60,6 +60,7 @@ exports.signup = signup;
  */
 const getLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send("logged in");
+    console.log("loggin funtion");
 });
 exports.getLogin = getLogin;
 //login user

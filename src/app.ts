@@ -3,6 +3,10 @@ import mongoose from "mongoose"
 import cors from "cors"
 import Routes from "./routes"
 import cookieParser from "cookie-parser"
+const helmet = require('helmet')
+
+
+const serverless = require('serverless-http');
 
 
 const session = require("express-session");
@@ -11,11 +15,14 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 
 const app: Express = express()
 
-const PORT: string | number = process.env.PORT || 3000;
+
+const PORT: string | number = process.env.PORT || 3001;
 
 app.use(express.json())
 
 app.use(express.urlencoded({ extended: false }))
+
+app.use(helmet())
 
 //create session
 /**
@@ -44,13 +51,11 @@ app.use(
 
 app.use(cookieParser())
 
-app.use(cors({
-  methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
-}))
+app.use(cors())
 
 
 app.use(Routes)
-app.get("/", () => console.log("hello"))
+
 
 
 const options = { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, }
@@ -62,10 +67,9 @@ mongoose.set("useFindAndModify", false)
 //connection with db and server start
 mongoose
   .connect(`mongodb+srv://sachin:28021998@cluster0.srpbo.mongodb.net/myExpance?retryWrites=true&w=majority`, options)
-  .then(() =>
-    app.listen(PORT, () =>
-      console.log(`Server running on http://localhost:${PORT}`)
-    )
+  .then(() => {
+    return console.log("connected to db")
+  }
   )
 
   .catch(error => {
@@ -73,5 +77,5 @@ mongoose
   })
 
 
-module.exports = app
+module.exports = app;
 

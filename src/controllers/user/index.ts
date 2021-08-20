@@ -50,6 +50,7 @@ const signup = async (req: Request, res: Response): Promise<void> => {
  */
 const getLogin = async (req: Request, res: Response): Promise<void> => {
   res.send("logged in")
+  console.log("loggin funtion")
 }
 
 //login user

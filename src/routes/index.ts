@@ -8,7 +8,7 @@ import uploadFiles from "../controllers/uploadFiles";
 
 const router: Router = Router()
 
-router.get('/', function (req: Request, res: Response, next) { console.log("serverless") });
+
 
 //show all expance
 /**
@@ -91,6 +91,8 @@ router.get("/logout", isAuth, getlogout)
 
 
 router.post('/upload', isAuth, uploadMiddleware.single('input'), uploadFiles);
+
+router.get('/', function (req: Request, res: Response, next) { return console.log("serverless") });
 
 
 
